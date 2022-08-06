@@ -11,8 +11,8 @@ biggerloop:
 	push ecx
 	mov ecx, [N]
 	
-	mov esi, chisla         ; esi points to the 1st number in chisla (our source)
-	mov edi, chisla + 4     ; edi points to the next number in chisla (destination)
+	mov esi, numbers        ; esi points to the 1st number in numbers (our source)
+	mov edi, numbers + 4    ; edi points to the next number in numbers (destination)
 	
 	
 	l1: mov eax, [esi]      ; put number in ax from esi
@@ -33,7 +33,7 @@ biggerloop:
 	; after sorting we print the result on screen
 	inc [N]                 ; we need to run through array N+1 times now
 	mov ecx, [N]            ; set counter to new N
-	mov esi, chisla         ; move pointer to the beginning of array
+	mov esi, numbers        ; move pointer to the beginning of array
 
 
 lprint:                     ; loop through the whole array to print it
@@ -58,7 +58,7 @@ outint:                  ; a function that converts number to decimal system and
 	                     ; (the last one is EOL symbol, before it there's a newline symbol)
 
 l:  xor edx, edx         ; nullify dx
-	div [schisl]         ; divide eax by schisl. the mod automatically goes to dl
+	div [decradix]       ; divide eax by decimal radix. the mod automatically goes to dl
 	add dl, '0'          ; add '0' to result to get its number code
 	mov [edi], dl        ; write resulting encoded number to output string by edi pointer
 	dec edi              ; move pointer lower
@@ -76,8 +76,8 @@ l:  xor edx, edx         ; nullify dx
 
 
 segment readable writeable
-chisla dd 45678,952,1411,44449,0,1,33,115,228,8   ; the array to sort
-N      dd 9                                       ; size of array - 1
-schisl dd 10                                      ; decimal system radix
-sorted db '          ', 0xA                       ; string to write resulting numbers
+numbers  dd 45678,952,1411,44449,0,1,33,115,228,8  ; the array to sort
+N        dd 9                                      ; size of array - 1
+decradix dd 10                                     ; decimal system radix
+sorted   db '          ', 0xA                      ; string to write resulting numbers
 sorted_size = $-sorted
